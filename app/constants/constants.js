@@ -193,8 +193,8 @@ export const CONNECTION_CONFIG = {
             `
         },
         {
-            'label': 'Id',
-            'value': 'id',
+            'label': 'Identifier',
+            'value': 'identifier',
             'type': 'text',
             'description': `
               Dataset unique identifier.
@@ -395,6 +395,6 @@ export const SAMPLE_DBS = {
     },
     [DIALECTS.DATA_WORLD]: {
         owner: 'jonloyens',
-        id: 'an-intro-to-dataworld-dataset'
+        identifier: 'an-intro-to-dataworld-dataset'
     }
 };
