@@ -362,6 +362,7 @@ function PREVIEW_QUERY (dialect, table, database = '') {
             return `SELECT * FROM ${table} FETCH FIRST 1000 ROWS ONLY`;
         case DIALECTS.APACHE_IMPALA:
         case DIALECTS.APACHE_SPARK:
+        case DIALECTS.DATA_WORLD:
         case DIALECTS.MYSQL:
         case DIALECTS.SQLITE:
         case DIALECTS.MARIADB:
