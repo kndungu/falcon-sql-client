@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import TreeView from 'react-treeview';
 import {isEmpty, has} from 'ramda';
 
+import {DIALECTS} from '../../../constants/constants';
+import {getPathNames} from '../../../utils/utils';
+
+const BASENAME_RE = /[^\\/]+$/;
+
 class TableTree extends Component {
     constructor(props) {
         super(props);
@@ -18,6 +23,20 @@ class TableTree extends Component {
         connectionObject: PropTypes.shape({
             database: PropTypes.string
         })
+    }
+
+    getLabel(connectionObject) {
+        console.log('Been called', connectionObject);
+        switch (connectionObject.dialect) {
+            case DIALECTS.SQLITE:
+              return BASENAME_RE.exec(this.props.connectionObject.storage)[0] ||
+              this.props.connectionObject.storage;
+            case DIALECTS.DATA_WORLD:
+              console.log('This is it', getPathNames());
+              return getPathNames(connectionObject.url)[2];
+            default:
+              return connectionObject.database;
+        }
     }
 
     storeSchemaTree() {
@@ -78,12 +97,12 @@ class TableTree extends Component {
             return (<div className="loading">{'Updating'}</div>);
         }
 
-        const database = this.props.connectionObject.database;
-        const databaseLabel = <span className="node">{database}</span>;
+        const label = this.getLabel(this.props.connectionObject);
+        const labelNode = <span className="node">{label}</span>;
 
         return (
             <div style={{padding: '5px 0 0 10px'}}>
-                <TreeView key={database} nodeLabel={databaseLabel} defaultCollapsed={false}>{
+                <TreeView key={label} nodeLabel={labelNode} defaultCollapsed={false}>{
                     Object.getOwnPropertyNames(treeSchema).sort().map(tableName => {
                         const tableSchema = treeSchema[tableName];
                         const tableLabel = <span className="node">{tableName}</span>;
